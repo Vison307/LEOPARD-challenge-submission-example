@@ -1,0 +1,1 @@
+from inference_utils.infer import inference

@@ -1,0 +1,15 @@
+Model:
+    name: TransMIL
+    n_classes: 4
+    input_dim: 1024
+
+Optimizer:
+    opt: adam
+    lr: 0.0002
+    opt_eps: null 
+    opt_betas: null
+    momentum: null 
+    weight_decay: 0.00001
+
+Lr_scheduler:
+    _if: True

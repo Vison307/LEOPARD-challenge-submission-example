@@ -1,0 +1,17 @@
+Model:
+    name: DSMIL
+    size_arg: small
+    n_classes: 4
+    input_dim: 1024
+
+Optimizer:
+    opt: adam
+    lr: 0.0005
+    opt_eps: null # eps in parameter
+    opt_betas: !!python/tuple [0.9, 0.999] # beta in parameter
+    momentum: null # momentum in parameter
+    weight_decay: 10.e-5 # weight decay in parameter
+
+Lr_scheduler:
+    _if: True
+    

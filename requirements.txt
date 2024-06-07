@@ -1,0 +1,14 @@
+SimpleITK
+numpy
+timm==0.9.8
+h5py
+pandas
+PyYAML
+opencv-python
+matplotlib
+scikit-learn
+scipy
+tqdm
+openslide-python
+tensorboardX
+addict
