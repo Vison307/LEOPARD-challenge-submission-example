@@ -76,7 +76,7 @@ def extract_features(data_h5_dir=None, data_slide_dir=None, slide_ext='.tif', cs
 	model = model.to(device)
 	total = len(bags_dataset)
 
-	loader_kwargs = {'num_workers': 8, 'pin_memory': False} if device.type == "cuda" else {}
+	loader_kwargs = {'num_workers': 4, 'pin_memory': False} if device.type == "cuda" else {}
 
 	for bag_candidate_idx in tqdm(range(total)):
 		slide_id = bags_dataset[bag_candidate_idx].split(args.slide_ext)[0]
