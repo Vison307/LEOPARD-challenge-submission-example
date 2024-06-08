@@ -49,9 +49,9 @@ def run():
     # Process the inputs: any way you'd like
     # _show_torch_cuda_info()
 
-    create_patches_fp.create_patches(source=wsi_dir, save_dir='/tmp/features', seg=True, patch=True, patch_size=512, step_size=512)
+    create_patches_fp.create_patches(source=wsi_dir, save_dir='/tmp/features', seg=True, patch=True) # , patch_size=512, step_size=512)
 
-    extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='resnet50_trunc', batch_size=256, target_patch_size=224)
+    extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='resnet50_trunc', batch_size=512, target_patch_size=224)
 
     print(f'extracted features: {os.listdir("/tmp/features")}')
 
