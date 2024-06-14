@@ -3,6 +3,7 @@ Model:
     size_arg: small
     n_classes: 4
     input_dim: 1024
+    model_graph: False
 
 Optimizer:
     opt: adam
@@ -11,6 +12,13 @@ Optimizer:
     opt_betas: !!python/tuple [0.9, 0.999] # beta in parameter
     momentum: null # momentum in parameter
     weight_decay: 10.e-5 # weight decay in parameter
+
+Data:
+    feature_kind: UNI # UNI or CTrans or res50 or CONCH
+    # model_path: LEOPARD/results/TransMIL/res50_pre/0/epoch_15_index_0.7373134328358208.pth
+    data_dir: /data115_2/LEOPARD/FEATURES/Leopard_512_at_0.25mpp/
+    save_dir: /data115_2/jsh/LEOPARD/results/
+
 
 Lr_scheduler:
     _if: True

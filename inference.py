@@ -49,17 +49,17 @@ def run():
     # Process the inputs: any way you'd like
     # _show_torch_cuda_info()
 
-    create_patches_fp.create_patches(source=wsi_dir, save_dir='/tmp/features', seg=True, patch=True, patch_size=512, step_size=512)
+    create_patches_fp.create_patches(source=wsi_dir, save_dir='/tmp/features', seg=True, patch=True, patch_size=512, step_size=512) # , patch_size=512, step_size=512)
 
-    extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='resnet50_trunc', batch_size=256, target_patch_size=224)
+    extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='ctranspath', batch_size=480, target_patch_size=224) # model_name = 'resnet50_trunc'
 
     print(f'extracted features: {os.listdir("/tmp/features")}')
 
     # with open(RESOURCE_PATH / "some_resource.txt", "r") as f:
     #     print(f.read())
 
-    config = "./config/DSMIL.yaml"
-    ckpt_path = "./resources/epoch_21_index_0.7053072625698324.pth"
+    config = "./config/TransMIL.yaml"
+    ckpt_path = "./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth"
     feature_dir = "/tmp/features/pt_files/"
     
     result_dict_list = inference_utils.inference(config, feature_dir, ckpt_path)

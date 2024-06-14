@@ -13,9 +13,15 @@ Optimizer:
     momentum: null # momentum in parameter
     weight_decay: 10.e-5 # weight decay in parameter
 
+Data:
+    feature_kind: CTrans # UNI or CTrans or res50
+    model_path: LEOPARD/results/CLAMMB/0/epoch_19_index_0.6620111731843575.pth
+    data_dir: /data115_2/LEOPARD/FEATURES/Leopard_512_at_0.25mpp/
+    save_dir: /data115_2/jsh/LEOPARD/results/
+
 Lr_scheduler:
     _if: True
-    
+
 # General:
 #     comment: 
 #     seed: &seed 2021

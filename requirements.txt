@@ -12,3 +12,4 @@ tqdm
 openslide-python
 tensorboardX
 addict
+nystrom-attention==0.0.11

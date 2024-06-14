@@ -2,3 +2,6 @@ cphitsz-leopard-submission_20240607_195834.tar.gz
 test
 */__pycache__
 resources/some_resource.txt
+./resources/epoch_21_index_0.7053072625698324.pth
+./resources/resnet50.tv_in1k.bin
+./resources/ctranspath.pth
