@@ -1,4 +1,4 @@
-import torch
+vscode-remote://ssh-remote%2Bjump_115/data115_2/fzj/LEOPARD/code/CLAM/ctranspath.pthimport torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
