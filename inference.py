@@ -23,44 +23,42 @@ from glob import glob
 import SimpleITK
 import numpy
 import os
+os.environ['CONCH_CKPT_PATH'] = "./resources/uni.bin"
 from extract_feature_utils import create_patches_fp
 from extract_feature_utils import extract_features_fp
+from extract_feature_utils import h5toPyG
 import inference_utils
 INPUT_PATH = Path("/input")
 OUTPUT_PATH = Path("/output")
 RESOURCE_PATH = Path("resources")
 
+# config = "./config/TransMIL.yaml"
+config = "./config/Patch_GCN_v2.yaml"
+# ckpt_path = "./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth"
+ckpt_path = "./resources/UNI_Patch_GCN_v2_epoch_18_index_0.7418677859391396.pth"
+feature_dir = "/tmp/features/pt_files/"
+
+
 def run():
     # Read the input
-    # input_prostatectomy_tissue_whole_slide_image = load_image_file_as_array(
-    #     location=INPUT_PATH / "images/prostatectomy-wsi",
-    # )
-    # input_prostatectomy_tissue_mask = load_image_file_as_array(
-    #     location=INPUT_PATH / "images/prostatectomy-tissue-mask",
-    # )
     wsi_dir = os.path.join(INPUT_PATH, "images/prostatectomy-wsi")
     wsi_list = sorted(os.listdir(wsi_dir))
 
     tissue_mask_dir = os.path.join(INPUT_PATH, "images/prostatectomy-tissue-mask")
     tissue_mask_list = sorted(os.listdir(tissue_mask_dir))
 
-    print(f'wsi_list: {wsi_list}; tissue_mask_list: {tissue_mask_list}')
-    
-    # Process the inputs: any way you'd like
-    # _show_torch_cuda_info()
-
     create_patches_fp.create_patches(source=wsi_dir, save_dir='/tmp/features', seg=True, patch=True, patch_size=512, step_size=512) # , patch_size=512, step_size=512)
 
-    extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='ctranspath', batch_size=480, target_patch_size=224) # model_name = 'resnet50_trunc'
+    if 'cTranspath' in ckpt_path:
+        extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='ctranspath', batch_size=480, target_patch_size=224) # model_name = 'resnet50_trunc'
+    elif 'uni' in ckpt_path:
+        extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='uni_v1', batch_size=480, target_patch_size=224) # model_name = 'resnet50_trunc'
+    else:
+        extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='resnet50_trunc', batch_size=512, target_patch_size=224) # model_name = 'resnet50_trunc'
 
-    print(f'extracted features: {os.listdir("/tmp/features")}')
-
-    # with open(RESOURCE_PATH / "some_resource.txt", "r") as f:
-    #     print(f.read())
-
-    config = "./config/TransMIL.yaml"
-    ckpt_path = "./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth"
-    feature_dir = "/tmp/features/pt_files/"
+    if 'Patch_GCN' in config:
+        h5toPyG.createDir_h5toPyG(h5_path='/tmp/features/h5_files', save_path='/tmp/features/pt_files')
+        
     
     result_dict_list = inference_utils.inference(config, feature_dir, ckpt_path)
 
