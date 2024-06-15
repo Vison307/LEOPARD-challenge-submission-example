@@ -52,7 +52,13 @@ def init_model(args, cfg):
     return model
 
 def collate_MT(batch):
-    img = torch.cat([item[0] for item in batch], dim = 0)
+
+    for item in batch:
+        if torch.is_tensor(item[0]):
+            img = torch.cat([item[0] for item in batch], dim = 0)
+        else:
+            img = item[0]
+    
     case_id = np.array([item[1] for item in batch])
     return [img, case_id]
 

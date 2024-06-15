@@ -40,7 +40,7 @@ docker volume create "$DOCKER_NOOP_VOLUME"
 docker run --rm \
     --platform=linux/amd64 \
     --network none \
-    --gpus all \
+    --gpus '"device=3,"' \
     --shm-size 8G \
     --volume "$INPUT_DIR":/input:ro \
     --volume "$OUTPUT_DIR":/output \

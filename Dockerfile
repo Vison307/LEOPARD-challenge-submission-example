@@ -6,7 +6,7 @@ FROM --platform=linux/amd64 pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime
 ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && apt-get install -y \
-    gcc ffmpeg libsm6 libxext6 openslide-tools
+    build-essential gcc ffmpeg libsm6 libxext6 openslide-tools
 
 RUN groupadd -r user && useradd -m --no-log-init -r -g user user
 USER user
@@ -33,9 +33,11 @@ RUN python -m pip install \
     --no-color \
     --requirement /opt/app/requirements.txt \
     -i https://pypi.tuna.tsinghua.edu.cn/simple
-RUN python -m pip install /opt/app/resources/timm-0.5.4.tar
+
+# RUN python -m pip install /opt/app/resources/timm-0.5.4.tar
 
 COPY --chown=user:user inference.py /opt/app/
+
 
 ENTRYPOINT ["python", "inference.py"]
 # ENTRYPOINT [ "/bin/bash" ]

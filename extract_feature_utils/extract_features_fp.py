@@ -45,7 +45,7 @@ def compute_w_loader(output_path, loader, model, verbose = 0):
 	return output_path
 
 
-def extract_features(data_h5_dir=None, data_slide_dir=None, slide_ext='.tif', csv_path=None, feat_dir=None, model_name='resnet50_trunc', batch_size=256, no_auto_skip=False, target_patch_size=224):
+def extract_features(data_h5_dir=None, data_slide_dir=None, slide_ext='.tif', csv_path=None, feat_dir=None, model_name='resnet50_trunc', batch_size=256, no_auto_skip=False, target_patch_size=224, save_pt=True):
 
 	args = Namespace()
 	args.data_h5_dir = data_h5_dir
@@ -108,9 +108,11 @@ def extract_features(data_h5_dir=None, data_slide_dir=None, slide_ext='.tif', cs
 			print('features size: ', features.shape)
 			print('coordinates size: ', file['coords'].shape)
 
-		features = torch.from_numpy(features)
-		bag_base, _ = os.path.splitext(bag_name)
-		torch.save(features, os.path.join(args.feat_dir, 'pt_files', bag_base+'.pt'))
+		if save_pt:
+			features = torch.from_numpy(features)
+			bag_base, _ = os.path.splitext(bag_name)
+			torch.save(features, os.path.join(args.feat_dir, 'pt_files', bag_base+'.pt'))
+			print(f'save: ', os.path.join(args.feat_dir, 'pt_files', bag_base+'.pt'))
 
 
 
