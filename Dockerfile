@@ -1,12 +1,13 @@
 # FROM --platform=linux/amd64 pytorch/pytorch
 FROM --platform=linux/amd64 pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime
+# FROM --platform=linux/amd64 pytorch/pytorch:2.3.1-cuda11.8-cudnn8-devel
 # Use a 'large' base container to show-case how to load pytorch and use the GPU (when enabled)
 
 # Ensures that Python output to stdout/stderr is not buffered: prevents missing information when terminating
 ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && apt-get install -y \
-    build-essential gcc ffmpeg libsm6 libxext6 openslide-tools
+    build-essential gcc ffmpeg libsm6 libxext6 openslide-tools git
 
 RUN groupadd -r user && useradd -m --no-log-init -r -g user user
 USER user
@@ -35,6 +36,7 @@ RUN python -m pip install \
     -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 # RUN python -m pip install /opt/app/resources/timm-0.5.4.tar
+# RUN python -m pip install git+https://gitclone.com/github.com/Mahmoodlab/CONCH.git
 
 COPY --chown=user:user inference.py /opt/app/
 

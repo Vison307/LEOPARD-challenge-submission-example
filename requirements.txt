@@ -1,5 +1,5 @@
 SimpleITK
-numpy
+numpy<2
 timm==0.9.8
 h5py
 pandas
@@ -13,6 +13,6 @@ openslide-python
 tensorboardX
 addict
 nystrom-attention==0.0.11
-nmslib
-torch_geometric
-networkx
+# nmslib
+# torch_geometric
+# networkx

@@ -23,19 +23,19 @@ from glob import glob
 import SimpleITK
 import numpy
 import os
-os.environ['UNI_CKPT_PATH'] = "./resources/uni.bin"
+# os.environ['UNI_CKPT_PATH'] = "./resources/uni.bin"
 from extract_feature_utils import create_patches_fp
 from extract_feature_utils import extract_features_fp
-from extract_feature_utils import h5toPyG
+# from extract_feature_utils import h5toPyG
 import inference_utils
 INPUT_PATH = Path("/input")
 OUTPUT_PATH = Path("/output")
 RESOURCE_PATH = Path("resources")
 
-# config = "./config/TransMIL.yaml"
-config = "./config/Patch_GCN_v2.yaml"
+config = "./config/TransMIL.yaml"
+# config = "./config/Patch_GCN_v2.yaml"
 # ckpt_path = "./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth"
-ckpt_path = "./resources/uni_Patch_GCN_v2_epoch_18_index_0.7418677859391396.pth"
+ckpt_path = "./resources/resnet50_TransMIL_epoch_15_index_0.7373134328358208.pth"
 feature_dir = "/tmp/features/pt_files/"
 
 
@@ -49,13 +49,16 @@ def run():
 
     create_patches_fp.create_patches(source=wsi_dir, save_dir='/tmp/features', seg=True, patch=True, patch_size=512, step_size=512) # , patch_size=512, step_size=512)
 
-    save_pt = False
+    save_pt = 'Patch_GCN' not in config
     print('save_pt: ', save_pt)
     if 'cTranspath' in ckpt_path:
+        print(f'Extracting features using cTranspath model')
         extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='ctranspath', batch_size=480, target_patch_size=224, save_pt=save_pt) # model_name = 'resnet50_trunc'
     elif 'uni' in ckpt_path:
+        print(f'Extracting features using uni model')
         extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='uni_v1', batch_size=512, target_patch_size=224, save_pt=save_pt) # model_name = 'resnet50_trunc'
     else:
+        print(f'Extracting features using resnet50 model')
         extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='resnet50_trunc', batch_size=512, target_patch_size=224, save_pt=save_pt) # model_name = 'resnet50_trunc'
 
     if 'Patch_GCN' in config:
