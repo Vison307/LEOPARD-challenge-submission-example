@@ -34,7 +34,8 @@ RESOURCE_PATH = Path("resources")
 config = "./config/Patch_GCN_v2_test.yaml"
 # config = "./config/Patch_GCN_v2.yaml"
 # ckpt_path = "./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth"
-ckpt_path = "./resources/cTranspath_Patch_GCN_v2_test_epoch_1_index_0.6610850636302746.pth"
+# ckpt_path = "./resources/cTranspath_Patch_GCN_v2_test_epoch_1_index_0.6610850636302746.pth"
+ckpt_path = "./resources/cTranspath_Patch_GCN_v2_test_epoch_2_index_0.6731413261888815.pth"
 feature_dir = "/tmp/features/pt_files/"
 
 
@@ -62,7 +63,7 @@ def run():
 
     if 'Patch_GCN' in config:
         from extract_feature_utils import h5toPyG
-        
+
         h5toPyG.createDir_h5toPyG(h5_path='/tmp/features/h5_files', save_path='/tmp/features/pt_files')
         
     
