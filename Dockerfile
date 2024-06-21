@@ -35,7 +35,7 @@ RUN python -m pip install \
     --requirement /opt/app/requirements.txt \
     -i https://pypi.tuna.tsinghua.edu.cn/simple
 
-# RUN python -m pip install /opt/app/resources/timm-0.5.4.tar
+RUN python -m pip install /opt/app/resources/timm-0.5.4.tar
 # RUN python -m pip install git+https://gitclone.com/github.com/Mahmoodlab/CONCH.git
 
 COPY --chown=user:user inference.py /opt/app/

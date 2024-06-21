@@ -26,16 +26,15 @@ import os
 # os.environ['UNI_CKPT_PATH'] = "./resources/uni.bin"
 from extract_feature_utils import create_patches_fp
 from extract_feature_utils import extract_features_fp
-# from extract_feature_utils import h5toPyG
 import inference_utils
 INPUT_PATH = Path("/input")
 OUTPUT_PATH = Path("/output")
 RESOURCE_PATH = Path("resources")
 
-config = "./config/TransMIL.yaml"
+config = "./config/Patch_GCN_v2_test.yaml"
 # config = "./config/Patch_GCN_v2.yaml"
 # ckpt_path = "./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth"
-ckpt_path = "./resources/resnet50_TransMIL_epoch_15_index_0.7373134328358208.pth"
+ckpt_path = "./resources/cTranspath_Patch_GCN_v2_test_epoch_1_index_0.6610850636302746.pth"
 feature_dir = "/tmp/features/pt_files/"
 
 
@@ -62,6 +61,8 @@ def run():
         extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='resnet50_trunc', batch_size=512, target_patch_size=224, save_pt=save_pt) # model_name = 'resnet50_trunc'
 
     if 'Patch_GCN' in config:
+        from extract_feature_utils import h5toPyG
+        
         h5toPyG.createDir_h5toPyG(h5_path='/tmp/features/h5_files', save_path='/tmp/features/pt_files')
         
     
