@@ -31,12 +31,14 @@ INPUT_PATH = Path("/input")
 OUTPUT_PATH = Path("/output")
 RESOURCE_PATH = Path("resources")
 
-config_list = ["./config/TransMIL.yaml", "./config/Patch_GCN_v2_test.yaml", "./config/TransMIL_1024.yaml"]
+# config_list = ["./config/TransMIL.yaml", "./config/Patch_GCN_v2_test.yaml", "./config/TransMIL_1024.yaml"]
 # config = "./config/Patch_GCN_v2.yaml"
 # ckpt_path = "./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth"
-ckpt_path_list = ["./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth", "./resources/cTranspath_Patch_GCN_v2_test_epoch_1_index_0.6610850636302746.pth", "resources/resnet50_TransMIL_epoch_15_index_0.7373134328358208.pth"]
+# ckpt_path_list = ["./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth", "./resources/cTranspath_Patch_GCN_v2_test_epoch_1_index_0.6610850636302746.pth", "resources/resnet50_TransMIL_epoch_15_index_0.7373134328358208.pth"]
 # ckpt_path = "./resources/cTranspath_Patch_GCN_v2_test_epoch_2_index_0.6731413261888815.pth" # new ckpt
+config_list = ["./config/TransMIL.yaml"] * 5
 
+ckpt_path_list = ["./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth"] * 5
 
 def run():
     # Read the input
