@@ -31,12 +31,11 @@ INPUT_PATH = Path("/input")
 OUTPUT_PATH = Path("/output")
 RESOURCE_PATH = Path("resources")
 
-config_list = ["./config/TransMIL.yaml", "./config/Patch_GCN_v2_test.yaml"]
+config_list = ["./config/TransMIL.yaml", "./config/Patch_GCN_v2_test.yaml", "./config/TransMIL_1024.yaml"]
 # config = "./config/Patch_GCN_v2.yaml"
 # ckpt_path = "./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth"
-ckpt_path_list = ["./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth", "./resources/cTranspath_Patch_GCN_v2_test_epoch_1_index_0.6610850636302746.pth"]
+ckpt_path_list = ["./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth", "./resources/cTranspath_Patch_GCN_v2_test_epoch_1_index_0.6610850636302746.pth", "resources/resnet50_TransMIL_epoch_15_index_0.7373134328358208.pth"]
 # ckpt_path = "./resources/cTranspath_Patch_GCN_v2_test_epoch_2_index_0.6731413261888815.pth" # new ckpt
-feature_dir = "/tmp/features/pt_files/"
 
 
 def run():
@@ -47,41 +46,56 @@ def run():
     # tissue_mask_dir = os.path.join(INPUT_PATH, "images/prostatectomy-tissue-mask")
     # tissue_mask_list = sorted(os.listdir(tissue_mask_dir))
 
-    create_patches_fp.create_patches(source=wsi_dir, save_dir='/tmp/features', seg=True, patch=True, patch_size=512, step_size=512) # , patch_size=512, step_size=512)
+    create_patches_fp.create_patches(source=wsi_dir, save_dir='/tmp/coords', seg=True, patch=True, patch_size=512, step_size=512) # , patch_size=512, step_size=512)
 
-    cTranspath_flag = False
-    UNI_flag = False
-    R50_flag = False
-    PatchGCN_flag = False
     for config, ckpt_path in zip(config_list, ckpt_path_list):
+        print(config, ckpt_path)
         if 'cTranspath' in ckpt_path:
-            if not cTranspath_flag:
-                print(f'Extracting features using cTranspath model')
-                extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='ctranspath', batch_size=480, target_patch_size=224, save_pt=True) # model_name = 'resnet50_trunc'
-                cTranspath_flag = True
+            model_name = 'cTranspath'
         elif 'uni' in ckpt_path:
-            if not UNI_flag:
-                print(f'Extracting features using uni model')
-                extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='uni_v1', batch_size=512, target_patch_size=224, save_pt=True) # model_name = 'resnet50_trunc'
-                UNI_flag = True
+            model_name = 'uni'
         else:
-            if not R50_flag:
+            model_name = 'resnet50'
+        
+        feat_dir = f'/tmp/{model_name}_features'
+        if not os.path.exists(feat_dir):
+            if model_name == 'cTranspath':
+                print(f'Extracting features using cTranspath model')
+                extract_features_fp.extract_features(data_h5_dir='/tmp/coords', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/coords/process_list_autogen.csv', feat_dir=feat_dir, model_name='ctranspath', batch_size=480, target_patch_size=224, save_pt=True)
+            elif model_name == 'uni':
+                print(f'Extracting features using uni model')
+                extract_features_fp.extract_features(data_h5_dir='/tmp/coords', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/coords/process_list_autogen.csv', feat_dir=feat_dir, model_name='uni_v1', batch_size=512, target_patch_size=224, save_pt=True)
+            else:
                 print(f'Extracting features using resnet50 model')
-                extract_features_fp.extract_features(data_h5_dir='/tmp/features', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/features/process_list_autogen.csv', feat_dir='/tmp/features', model_name='resnet50_trunc', batch_size=512, target_patch_size=224, save_pt=True) # model_name = 'resnet50_trunc'
-                R50_flag = True
+                extract_features_fp.extract_features(data_h5_dir='/tmp/coords', data_slide_dir=wsi_dir, slide_ext='.tif', csv_path='/tmp/coords/process_list_autogen.csv', feat_dir=feat_dir, model_name='resnet50_trunc', batch_size=512, target_patch_size=224, save_pt=True)
+
         if 'Patch_GCN' in config:
-            if not PatchGCN_flag:
+            try:
+                h5toPyG
+            except:
                 from extract_feature_utils import h5toPyG
-                os.makedirs("/tmp/features/graph_pt_files")
-                h5toPyG.createDir_h5toPyG(h5_path='/tmp/features/h5_files', save_path='/tmp/features/graph_pt_files')
-                PatchGCN_flag = True
+            h5_path = f'/tmp/{model_name}_features/h5_files'
+            save_path = f'/tmp/{model_name}_features/graph_pt_files'
+            if not os.path.exists(save_path):
+                os.makedirs(save_path)
+                h5toPyG.createDir_h5toPyG(h5_path=h5_path, save_path=save_path)
     
     result_list = []
     for config, ckpt_path in zip(config_list, ckpt_path_list):
-        if 'Patch_GCN' in config:
-            result = inference_utils.inference(config, '/tmp/features/graph_pt_files', ckpt_path)[0]['predicted_time']
+        if 'cTranspath' in ckpt_path:
+            model_name = 'cTranspath'
+        elif 'uni' in ckpt_path:
+            model_name = 'uni'
         else:
-            result = inference_utils.inference(config, '/tmp/features/pt_files', ckpt_path)[0]['predicted_time']
+            model_name = 'resnet50'
+        
+        feat_dir = f'/tmp/{model_name}_features/pt_files'
+        graph_dir = f'/tmp/{model_name}_features/graph_pt_files'
+
+        if 'Patch_GCN' in config:
+            result = inference_utils.inference(config, graph_dir, ckpt_path)[0]['predicted_time']
+        else:
+            result = inference_utils.inference(config, feat_dir, ckpt_path)[0]['predicted_time']
         result_list.append(result)
 
     # For now, let us set make bogus predictions
@@ -113,8 +127,7 @@ def load_image_file_as_array(*, location):
 
 
 if __name__ == "__main__":
-    if os.path.exists('/tmp/features'):
-        os.system('rm -rf /tmp/features')
+    os.system('rm -rf /tmp/*')
     print(os.listdir('/tmp'))
     run()
     # raise SystemExit(run())

@@ -1,0 +1,5 @@
+docker build -t leopard-submssion:v1 .
+
+docker run --gpus "device=6" --rm -it -v /data115_2/fzj/LEOPARD/images:/input/images -v /data115_2/fzj/LEOPARD/test_output:/output leopard-submssion:v1 /bin/bash
+
+docker run --gpus "device=0" --rm -it --network none --shm-size 8G -v /data115_2/fzj/LEOPARD/LEOPARD-challenge-submission-example/test/input:/input -v /data115_2/fzj/LEOPARD/LEOPARD-challenge-submission-example/test/output:/output leopard-submssion:v1
