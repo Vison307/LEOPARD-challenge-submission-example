@@ -1,7 +1,7 @@
 Model:
     name: TransMIL
     n_classes: 4
-    input_dim: 1024 # 768
+    input_dim: 768
     model_graph: False
 
 Optimizer:
