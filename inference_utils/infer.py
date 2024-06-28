@@ -34,7 +34,7 @@ class InferenceDataset(Dataset):
             features.append(torch.load(filepath))
 
         path_features = torch.cat(features, dim=0)
-        print(path_features.shape)
+        print(f'feature shape: {path_features.shape}')
 
         return (path_features, filename.split('.tif')[0])
 

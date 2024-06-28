@@ -23,6 +23,7 @@ from glob import glob
 import SimpleITK
 import numpy
 import os
+import torch
 # os.environ['UNI_CKPT_PATH'] = "./resources/uni.bin"
 from extract_feature_utils import create_patches_fp
 from extract_feature_utils import extract_features_fp
@@ -94,11 +95,11 @@ def run():
         feat_dir_list = [f'/tmp/{model_name}_features_{step_size}/pt_files' for step_size in step_size_list]
         graph_dir_list = [f'/tmp/{model_name}_features_{step_size}/graph_pt_files' for step_size in step_size_list]
 
-        print(feat_dir_list)
         if 'Patch_GCN' in config:
             result = inference_utils.inference(config, graph_dir_list, ckpt_path)[0]['predicted_time']
         else:
             result = inference_utils.inference(config, feat_dir_list, ckpt_path)[0]['predicted_time']
+        torch.cuda.empty_cache()
         result_list.append(result)
 
     # For now, let us set make bogus predictions
