@@ -12,20 +12,29 @@ import inspect
 from tqdm import tqdm
 
 class InferenceDataset(Dataset):
-    def __init__(self, feature_dir):
+    def __init__(self, feature_dir_list):
         super(InferenceDataset, self).__init__()
 
-        self.feature_dir = feature_dir
-        self.feature_list = sorted(os.listdir(feature_dir))
+        self.feature_dir_list = feature_dir_list
+
+        self.feature_list = []
+        for feature_dir in feature_dir_list:
+            self.feature_list.append(sorted(os.listdir(feature_dir)))
 
     def __len__(self):
-        return len(self.feature_list)
+        return len(self.feature_list[0])
 
     def __getitem__(self, idx):
-        filename = self.feature_list[idx]
-        feature_path = os.path.join(self.feature_dir, filename)
+        features = []
+        for i in range(len(self.feature_dir_list)):
+            feature_dir = self.feature_dir_list[i]
+            feature_list = self.feature_list[i]
+            filename = feature_list[idx]
+            filepath = os.path.join(feature_dir, filename) 
+            features.append(torch.load(filepath))
 
-        path_features = torch.load(feature_path)
+        path_features = torch.cat(features, dim=0)
+        print(path_features.shape)
 
         return (path_features, filename.split('.tif')[0])
 
@@ -67,7 +76,7 @@ def main(args, cfg):
     model.cuda()
     model.eval()
 
-    dataset = InferenceDataset(args.feature_dir)
+    dataset = InferenceDataset(args.feature_dir_list)
     data_loader = DataLoader(dataset, batch_size=args.batch_size, collate_fn=collate_MT)
 
     result_list = []
@@ -91,11 +100,11 @@ def main(args, cfg):
     return result_list
                 
 
-def inference(config, feature_dir, ckpt_path, num_class=4, batch_size=1):
+def inference(config, feature_dir_list, ckpt_path, num_class=4, batch_size=1):
     args = Namespace()
     args.config = config
     args.ckpt_path = ckpt_path
-    args.feature_dir = feature_dir
+    args.feature_dir_list = feature_dir_list
     args.num_class = num_class
     args.batch_size = batch_size
     
