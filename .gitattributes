@@ -3,3 +3,4 @@ resources/ctranspath.pth filter=lfs diff=lfs merge=lfs -text
 /data115_2/fzj/LEOPARD/LEOPARD-challenge-submission-example/resources/uni.bin filter=lfs diff=lfs merge=lfs -text
 resources/uni.bin filter=lfs diff=lfs merge=lfs -text
 resources/conch.bin filter=lfs diff=lfs merge=lfs -text
+tmp

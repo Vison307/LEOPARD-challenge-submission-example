@@ -2,7 +2,7 @@ Model:
     name: AMIL
     size_arg: small
     n_classes: 4
-    input_dim: 1024
+    input_dim: 768
 
 Optimizer:
     opt: adam

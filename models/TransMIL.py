@@ -60,8 +60,9 @@ class TransMIL(nn.Module):
 
         # h = kwargs['data'].float() #[B, n, 1024]
         # label = kwargs['label'].long()
-        h = kwargs['wsi']
+        h = kwargs['wsi'].float()
         h = h.unsqueeze(0)
+        print(f'h.shape: {h.shape}, type(h): {type(h)}')
 
         h = self._fc1(h) #[B, n, 512]
         

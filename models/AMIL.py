@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import sys
-sys.path.append('LEOPARD/models')
-from func import *
+# sys.path.append('LEOPARD/models')
+# from func import *
 
 SIZE_DICT = {'small': [512, 256], 'big': [512, 384]}
 
