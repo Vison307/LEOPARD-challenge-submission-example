@@ -71,7 +71,7 @@ class Patch_GCN(torch.nn.Module):
         self.path_rho = nn.Sequential(*[nn.Linear(hidden_dim*4, hidden_dim*4), nn.ReLU()])
 
         self.classifier = torch.nn.Linear(hidden_dim*4, n_classes)    
-
+        print(self.edge_agg)
     def forward(self,  **kwargs):
         data = kwargs['wsi']
                 

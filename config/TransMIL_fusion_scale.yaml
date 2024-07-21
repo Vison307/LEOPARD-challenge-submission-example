@@ -1,0 +1,36 @@
+Model:
+    name: TransMIL
+    n_classes: 4
+    input_dim: 1536
+    model_graph: False
+
+Optimizer:
+    opt: adam
+    lr: 0.0002
+    opt_eps: null 
+    opt_betas: null
+    momentum: null 
+    weight_decay: 0.00001
+
+Data:
+    feature_kind: CTrans # UNI or CTrans or res50
+    data_dir: /data115_2/jsh/LEOPARD_features_512with2048/
+    data_dir_multi_scale: None
+    save_dir: /data115_2/jsh/LEOPARD/results_fusion_scale/512to2048/
+    multi_scale: False
+    use_h5: True
+    
+    # model_path: LEOPARD/results_fusion_scale/512to2048_4:1:1/TransMIL/CTrans/4/epoch_22_index_0.8038277511961722.pth
+    model_path: LEOPARD/results_fusion_scale/512to2048_4:1:1/TransMIL/CTrans/2/epoch_1_index_0.7065637065637066.pth
+
+    # model_path: /data115_2/jsh/LEOPARD/results_fusion_scale/512to2048/TransMIL/CTrans/3/epoch_25_index_0.7604035308953342.pth
+    # model_path: /data115_2/jsh/LEOPARD/results_fusion_scale/512to2048/TransMIL/CTrans/2_pre/epoch_2_index_0.8153669724770642.pth
+    # model_path: LEOPARD/results_fusion_scale/512to2048/TransMIL/CTrans/2/epoch_3_index_0.7809633027522935.pth
+    csv_path: /data115_2/jsh/LEOPARD/leopard_labels/training_labels.csv
+    # split_dir: /data115_2/jsh/LEOPARD/splits_5fold/
+    split_dir: /data115_2/jsh/LEOPARD/split_5fold_train_val_test
+    random_choice: False
+    if_three_dataset: True
+
+Lr_scheduler:
+    _if: True

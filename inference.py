@@ -38,8 +38,25 @@ RESOURCE_PATH = Path("resources")
 # ckpt_path = "./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth"
 # ckpt_path_list = ["./resources/cTranspath_TransMIL_epoch_6_index_0.7628541448058762.pth", "./resources/cTranspath_Patch_GCN_v2_test_epoch_1_index_0.6610850636302746.pth", "resources/resnet50_TransMIL_epoch_15_index_0.7373134328358208.pth"]
 # ckpt_path = "./resources/cTranspath_Patch_GCN_v2_test_epoch_2_index_0.6731413261888815.pth" # new ckpt
-config_list = ["./config/ABMIL.yaml", "./config/TransMIL_cat.yaml", "./config/TransMIL.yaml", "config/TransMIL_multi_scale.yaml"]
-ckpt_path_list = ["./resources/ABMIL_cTranspath_1024_epoch_25_index_0.7077.pth", "./resources/TransMIL_cTranspath_512_2048_epoch_25_index_0.7604.pth", "./resources/TransMIL_cTranspath_1024_epoch_5_index_0.8031.pth", "./resources/TransMIL_fusion_cTranspath_512_2048_epoch_21_index_0.7692.pth"]
+# 0716
+# config_list = ["./config/ABMIL.yaml", "./config/TransMIL_cat.yaml", "./config/TransMIL.yaml", "config/TransMIL_multi_scale.yaml"]
+# ckpt_path_list = ["./resources/ABMIL_cTranspath_1024_epoch_25_index_0.7077.pth", "./resources/TransMIL_cTranspath_512_2048_epoch_25_index_0.7604.pth", "./resources/TransMIL_cTranspath_1024_epoch_5_index_0.8031.pth", "./resources/TransMIL_fusion_cTranspath_512_2048_epoch_21_index_0.7692.pth"]
+config_list = [
+    "./config/ABMIL.yaml", 
+    "./config/DeepGraphConv2.yaml", 
+    "./config/Patch_GCN_v1.yaml", 
+    "./config/Patch_GCN_v1.yaml", 
+    "./config/TransMIL_fusion_scale.yaml", 
+    "./config/TransMIL_fusion_scale.yaml"
+]
+ckpt_path_list = [
+    "./resources/ABMIL_cTranspath_1024_epoch_24_index_0.7150.pth", 
+    "./resources/DeepGraphConv_cTranspath_1024_epoch_18_index_0.6965.pth", 
+    "./resources/Patch_GCN_cTranspath_1024_epoch_15_index_0.6405.pth", 
+    "./resources/Patch_GCN_cTranspath_1024_epoch_25_index_0.7480.pth", 
+    "./resources/TransMIL_cTranspath_512_2048_epoch_22_index_0.8038.pth", 
+    "./resources/TransMIL_cTranspath_512_2048_epoch_1_index_0.7065.pth"
+]
 step_size_list = [512, 1024, 2048] # 20x, 10x
 
 assert len(config_list) == len(ckpt_path_list)
@@ -73,7 +90,7 @@ def run():
                     print(f'Extracting features using resnet50 model')
                     extract_features_fp.extract_features(data_h5_dir=coord_save_dir, data_slide_dir=wsi_dir, slide_ext='.tif', csv_path=os.path.join(coord_save_dir, 'process_list_autogen.csv'), feat_dir=feat_dir, model_name='resnet50_trunc', batch_size=512, target_patch_size=224, save_pt=True)
 
-            if 'Patch_GCN' in config:
+            if 'Patch_GCN' in config or 'DeepGraphConv' in config:
                 try:
                     h5toPyG
                 except:
@@ -96,7 +113,7 @@ def run():
         patch_size_str = ckpt_path.split(model_name + '_')[-1].split('_epoch')[0]
         patch_size_list = [int(i) for i in patch_size_str.split('_')]
         
-        if 'Patch_GCN' in config:
+        if 'Patch_GCN' in ckpt_path or 'DeepGraphConv' in ckpt_path:
             graph_dir_list = [f'/tmp/{model_name}_features_{patch_size}/graph_pt_files' for patch_size in patch_size_list]
             result = inference_utils.inference(config, graph_dir_list, ckpt_path)[0]['predicted_time']
         else:
@@ -135,5 +152,5 @@ def write_json_file(*, location, content):
 
 
 if __name__ == "__main__":
-    # os.system('rm -rf /tmp/*')
+    os.system('rm -rf /tmp/*')
     raise SystemExit(run())

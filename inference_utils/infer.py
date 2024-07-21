@@ -40,7 +40,10 @@ class InferenceDataset(Dataset):
                     # coords = hdf5_file['coords'][()]
                     features.append(torch.tensor(hdf5_file['features'][:]))
 
-        path_features = torch.cat(features, dim=0)
+        if len(features) == 1:
+            path_features = features[0]
+        else:
+            path_features = torch.cat(features, dim=0)
         # print(f'feature shape: {path_features.shape}')
 
         return (path_features, filename.split('.tif')[0])

@@ -1,0 +1,33 @@
+Model:
+    name: DeepGraphConv
+    size_arg: small
+    n_classes: 4
+    input_dim: 768 
+    edge_agg: spatial # can be review: latent or spatial
+    model_graph: True
+
+Optimizer:
+    opt: adam
+    lr: 0.0005
+    opt_eps: null # eps in parameter
+    opt_betas: !!python/tuple [0.9, 0.999] # beta in parameter
+    momentum: null # momentum in parameter
+    weight_decay: 10.e-5 # weight decay in parameter
+
+Data:
+    feature_kind: CTrans # UNI or CTrans or res50
+    data_dir: /data115_2/jsh/LEOPARD_GCN/Leopard_1024/
+    data_dir_multi_scale: None
+    save_dir: /data115_2/jsh/LEOPARD/results_DeepGraphConv/spatial/
+    use_h5: False
+    # csv_path: /data115_2/jsh/LEOPARD_GCN/Leopard_512_at_0.25mpp_disrect_graph/CTrans/pt_files/training_labels.csv
+    csv_path: /data115_2/jsh/LEOPARD_GCN/Leopard_1024/CTrans/pt_files/training_labels.csv
+    split_dir: /data115_2/jsh/LEOPARD/split_5fold_train_val_test/
+    if_three_dataset: True
+
+    # model_path: LEOPARD/results_DeepGraphConv/spatial/DeepGraphConv/mpdel_graph/CTrans/2/epoch_1_index_0.7277992277992278.pth
+    # model_path: LEOPARD/results_DeepGraphConv/spatial/DeepGraphConv/mpdel_graph/CTrans/1/epoch_18_index_0.7102272727272727.pth
+    model_path: LEOPARD/results_DeepGraphConv/spatial/DeepGraphConv/mpdel_graph/CTrans/0/epoch_18_index_0.6964618249534451.pth
+
+Lr_scheduler:
+    _if: True
