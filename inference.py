@@ -88,7 +88,7 @@ def run():
                 if not os.path.exists(feat_dir):
                     if model_name == 'cTranspath':
                         print(f'Extracting features using cTranspath model')
-                        extract_features_fp.extract_features(data_h5_dir=coord_save_dir, data_slide_dir=wsi_dir, slide_ext='.tif', csv_path=os.path.join(coord_save_dir, 'process_list_autogen.csv'), feat_dir=feat_dir, model_name='ctranspath', batch_size=480, target_patch_size=224, save_pt=True)
+                        extract_features_fp.extract_features(data_h5_dir=coord_save_dir, data_slide_dir=wsi_dir, slide_ext='.tif', csv_path=os.path.join(coord_save_dir, 'process_list_autogen.csv'), feat_dir=feat_dir, model_name='ctranspath', batch_size=495, target_patch_size=224, save_pt=True)
                     elif model_name == 'uni':
                         print(f'Extracting features using uni model')
                         extract_features_fp.extract_features(data_h5_dir=wsi_dir, data_slide_dir=wsi_dir, slide_ext='.tif', csv_path=os.path.join(coord_save_dir, 'process_list_autogen.csv'), feat_dir=feat_dir, model_name='uni_v1', batch_size=512, target_patch_size=224, save_pt=True)
@@ -161,4 +161,5 @@ def write_json_file(*, location, content):
 
 if __name__ == "__main__":
     os.system('rm -rf /tmp/*')
+    os.system('nvidia-smi')
     raise SystemExit(run())
