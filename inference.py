@@ -41,21 +41,35 @@ RESOURCE_PATH = Path("resources")
 # 0716
 # config_list = ["./config/ABMIL.yaml", "./config/TransMIL_cat.yaml", "./config/TransMIL.yaml", "config/TransMIL_multi_scale.yaml"]
 # ckpt_path_list = ["./resources/ABMIL_cTranspath_1024_epoch_25_index_0.7077.pth", "./resources/TransMIL_cTranspath_512_2048_epoch_25_index_0.7604.pth", "./resources/TransMIL_cTranspath_1024_epoch_5_index_0.8031.pth", "./resources/TransMIL_fusion_cTranspath_512_2048_epoch_21_index_0.7692.pth"]
+# config_list = [
+#     "./config/ABMIL.yaml", 
+#     "./config/DeepGraphConv2.yaml", 
+#     "./config/Patch_GCN_v1.yaml", 
+#     "./config/Patch_GCN_v1.yaml", 
+#     "./config/TransMIL_fusion_scale.yaml", 
+#     "./config/TransMIL_fusion_scale.yaml"
+# ]
+# ckpt_path_list = [
+#     "./resources/ABMIL_cTranspath_1024_epoch_24_index_0.7150.pth", 
+#     "./resources/DeepGraphConv_cTranspath_1024_epoch_18_index_0.6965.pth", 
+#     "./resources/Patch_GCN_cTranspath_1024_epoch_15_index_0.6405.pth", 
+#     "./resources/Patch_GCN_cTranspath_1024_epoch_25_index_0.7480.pth", 
+#     "./resources/TransMIL_cTranspath_512_2048_epoch_22_index_0.8038.pth", 
+#     "./resources/TransMIL_cTranspath_512_2048_epoch_1_index_0.7065.pth"
+# ]
 config_list = [
     "./config/ABMIL.yaml", 
-    "./config/DeepGraphConv2.yaml", 
-    "./config/Patch_GCN_v1.yaml", 
-    "./config/Patch_GCN_v1.yaml", 
-    "./config/TransMIL_fusion_scale.yaml", 
-    "./config/TransMIL_fusion_scale.yaml"
+    "./config/TransMIL.yaml", 
+    "./config/TransMIL.yaml", 
+    "./config/TransMIL_multi_scale.yaml", 
+    "./config/TransMIL_multi_scale.yaml"
 ]
 ckpt_path_list = [
-    "./resources/ABMIL_cTranspath_1024_epoch_24_index_0.7150.pth", 
-    "./resources/DeepGraphConv_cTranspath_1024_epoch_18_index_0.6965.pth", 
-    "./resources/Patch_GCN_cTranspath_1024_epoch_15_index_0.6405.pth", 
-    "./resources/Patch_GCN_cTranspath_1024_epoch_25_index_0.7480.pth", 
-    "./resources/TransMIL_cTranspath_512_2048_epoch_22_index_0.8038.pth", 
-    "./resources/TransMIL_cTranspath_512_2048_epoch_1_index_0.7065.pth"
+    "./resources/ABMIL_cTranspath_1024_epoch_27_index_0.7275.pth", 
+    "./resources/TransMIL_cTranspath_1024_epoch_5_index_0.8031.pth", 
+    "./resources/TransMIL_cTranspath_1024_epoch_22_index_0.7745.pth", 
+    "./resources/TransMIL_fusion_cTranspath_512_2048_epoch_3_index_0.8004.pth", 
+    "./resources/TransMIL_fusion_cTranspath_512_2048_epoch_16_index_0.7641.pth", 
 ]
 process_step_size = [] # 20x, 10x
 
