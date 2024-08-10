@@ -59,17 +59,9 @@ RESOURCE_PATH = Path("resources")
 # ]
 config_list = [
     "./config/ABMIL.yaml", 
-    "./config/TransMIL.yaml", 
-    "./config/TransMIL.yaml", 
-    "./config/TransMIL_multi_scale.yaml", 
-    "./config/TransMIL_multi_scale.yaml"
 ]
 ckpt_path_list = [
     "./resources/ABMIL_cTranspath_1024_epoch_27_index_0.7275.pth", 
-    "./resources/TransMIL_cTranspath_1024_epoch_5_index_0.8031.pth", 
-    "./resources/TransMIL_cTranspath_1024_epoch_22_index_0.7745.pth", 
-    "./resources/TransMIL_fusion_cTranspath_512_2048_epoch_3_index_0.8004.pth", 
-    "./resources/TransMIL_fusion_cTranspath_512_2048_epoch_16_index_0.7641.pth", 
 ]
 process_step_size = [] # 20x, 10x
 
