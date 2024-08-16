@@ -187,6 +187,7 @@ def main(args, cfg):
             args.feature_dir_list = ['/tmp/featuresC/512with2048/Ctrans/h5_files']
             dataset = InferenceDataset(args.ckpt_path, args.feature_dir_list)
         else:
+            # print(f'MultiFeatureInferenceDataset: {args.feature_dir_list}')
             dataset = MultiFeatureInferenceDataset(args.ckpt_path, args.feature_dir_list)
 
     data_loader = DataLoader(dataset, batch_size=args.batch_size, collate_fn=collate_MT)

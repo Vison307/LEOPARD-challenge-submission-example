@@ -58,13 +58,12 @@ RESOURCE_PATH = Path("resources")
 #     "./resources/TransMIL_cTranspath_512_2048_epoch_1_index_0.7065.pth"
 # ]
 config_list = [
-    "./config/ABMIL.yaml", 
+    "./config/TransMIL_multi_scale.yaml", 
 ]
 ckpt_path_list = [
-    "./resources/ABMIL_cTranspath_1024_epoch_27_index_0.7275.pth", 
+    "./resources/TransMIL_fusion_cTranspath_512_2048_epoch_3_index_0.7307.pth", 
 ]
-process_step_size = [] # 20x, 10x
-
+process_step_size = [] 
 assert len(config_list) == len(ckpt_path_list)
 
 def run():
