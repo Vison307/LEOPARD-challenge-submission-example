@@ -73,6 +73,7 @@ class Hnsw:
 def pt2graph(wsi_h5, radius=9):
     from torch_geometric.data import Data as geomData
     from itertools import chain
+    import random
     coords, features = np.array(wsi_h5['coords']), np.array(wsi_h5['features'])
     assert coords.shape[0] == features.shape[0]
     num_patches = coords.shape[0]
@@ -86,13 +87,14 @@ def pt2graph(wsi_h5, radius=9):
     model = Hnsw(space='l2')
     model.fit(features)
     a = np.repeat(range(num_patches), radius-1)
-    b = np.fromiter(chain(*[model.query(coords[v_idx], topn=radius)[1:] for v_idx in range(num_patches)]),dtype=int)
+    b = np.fromiter(chain(*[model.query(features[v_idx], topn=radius)[1:] for v_idx in range(num_patches)]),dtype=int)
     edge_latent = torch.Tensor(np.stack([a,b])).type(torch.LongTensor)
 
     G = geomData(x = torch.Tensor(features),
                  edge_index = edge_spatial,
                  edge_latent = edge_latent,
                  centroid = torch.Tensor(coords))
+    
     return G
     
 def createDir_h5toPyG(h5_path, save_path):

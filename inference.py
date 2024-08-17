@@ -58,10 +58,10 @@ RESOURCE_PATH = Path("resources")
 #     "./resources/TransMIL_cTranspath_512_2048_epoch_1_index_0.7065.pth"
 # ]
 config_list = [
-    "./config/TransMIL_multi_scale.yaml", 
+    "./config/Patch_GCN_v1.yaml", 
 ]
 ckpt_path_list = [
-    "./resources/TransMIL_fusion_cTranspath_512_2048_epoch_3_index_0.7307.pth", 
+    "./resources/Patch_GCN_cTranspath_1024_epoch_15_index_0.7634.pth", 
 ]
 process_step_size = [] 
 assert len(config_list) == len(ckpt_path_list)
@@ -101,7 +101,7 @@ def run():
                         print(f'Extracting features using resnet50 model')
                         extract_features_fp.extract_features(data_h5_dir=coord_save_dir, data_slide_dir=wsi_dir, slide_ext='.tif', csv_path=os.path.join(coord_save_dir, 'process_list_autogen.csv'), feat_dir=feat_dir, model_name='resnet50_trunc', batch_size=512, target_patch_size=224, save_pt=True)
 
-        if 'Patch_GCN' in config or 'DeepGraphConv' in config:
+        if 'Patch_GCN' in config or 'DeepGraphConv' in config or 'MamMIL' in config:
             try:
                 h5toPyG
             except:
@@ -126,7 +126,7 @@ def run():
         patch_size_str = ckpt_path.split(model_name + '_')[-1].split('_epoch')[0]
         patch_size_list = [int(i) for i in patch_size_str.split('_')]
         
-        if 'Patch_GCN' in ckpt_path or 'DeepGraphConv' in ckpt_path:
+        if 'Patch_GCN' in ckpt_path or 'DeepGraphConv' in ckpt_path or 'MamMIL' in ckpt_path:
             graph_dir_list = [f'/tmp/{model_name}_features_{patch_size}/graph_pt_files' for patch_size in patch_size_list]
             result = inference_utils.inference(config, graph_dir_list, ckpt_path)[0]['predicted_time']
         else:

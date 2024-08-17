@@ -25,7 +25,9 @@ fi
 echo "=+= (Re)build the container"
 docker build "$SCRIPT_DIR" \
   --platform=linux/amd64 \
-  --tag $DOCKER_TAG 2>&1
+  --tag $DOCKER_TAG \
+  --build-arg "HTTP_PROXY=http://10.103.13.114:7890" --build-arg "HTTPS_PROXY=http://10.103.13.114:7890" \
+  --build-arg "NO_PROXY=127.0.0.1,localhost" --network host 2>&1
 
 
 echo "=+= Doing a forward pass"
