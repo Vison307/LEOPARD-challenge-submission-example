@@ -8,6 +8,7 @@ import torch
 from torch.utils.data import DataLoader
 import h5py
 import openslide
+import wholeslidedata as wsd
 from tqdm import tqdm
 
 import numpy as np
@@ -92,7 +93,9 @@ def extract_features(data_h5_dir=None, data_slide_dir=None, slide_ext='.tif', cs
 
 		output_path = os.path.join(args.feat_dir, 'h5_files', bag_name)
 		time_start = time.time()
-		wsi = openslide.open_slide(slide_file_path)
+		
+		wsi = wsd.WholeSlideImage(slide_file_path) # asap
+		# wsi = openslide.open_slide(slide_file_path)
 		dataset = Whole_Slide_Bag_FP(file_path=h5_file_path, 
 							   		 wsi=wsi, 
 									 img_transforms=img_transforms)

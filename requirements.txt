@@ -9,10 +9,11 @@ matplotlib
 scikit-learn
 scipy
 tqdm
-openslide-python
+# openslide-python
+wholeslidedata
 tensorboardX
 addict
-nystrom-attention==0.0.11
-nmslib
-torch_geometric
-networkx
+# nystrom-attention==0.0.11
+# nmslib
+# torch_geometric
+# networkx

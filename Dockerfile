@@ -9,17 +9,19 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y \
     build-essential gcc ffmpeg libsm6 libxext6 git
-RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:openslide/openslide && apt-get update && apt-get -y install openslide-tools
+RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:openslide/openslide && apt-get update && apt-get -y install python3-openslide
 
+COPY resources /opt/app/resources
+RUN apt-get update && apt install -y /opt/app/resources/ASAP-2.1-Ubuntu2004.deb
 
 RUN groupadd -r user && useradd -m --no-log-init -r -g user user
+RUN chown -R user:user /opt/app/resources
+
 USER user
 
 WORKDIR /opt/app
 
 COPY --chown=user:user requirements.txt /opt/app/
-
-COPY --chown=user:user resources /opt/app/resources
 
 COPY --chown=user:user config /opt/app/config
 COPY --chown=user:user dataset_modules /opt/app/dataset_modules
@@ -28,6 +30,7 @@ COPY --chown=user:user inference_utils /opt/app/inference_utils
 COPY --chown=user:user models /opt/app/models
 COPY --chown=user:user utils /opt/app/utils
 COPY --chown=user:user wsi_core /opt/app/wsi_core
+
 
 # You can add any Python dependencies to requirements.txt
 
