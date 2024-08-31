@@ -1,21 +1,26 @@
-# FROM --platform=linux/amd64 pytorch/pytorch
-FROM --platform=linux/amd64 cnstark/pytorch:1.13.1-py3.9.16-cuda11.7.1-ubuntu20.04
+FROM --platform=linux/amd64 anibali/pytorch:1.13.1-cuda11.7-ubuntu22.04
+# FROM --platform=linux/amd64 cnstark/pytorch:1.13.1-py3.9.16-cuda11.7.1-ubuntu20.04
+# FROM --platform=linux/amd64 nvidia/cuda:11.7.1-runtime-ubuntu22.04
+
 # FROM --platform=linux/amd64 pytorch/pytorch:2.3.1-cuda11.8-cudnn8-devel
 # Use a 'large' base container to show-case how to load pytorch and use the GPU (when enabled)
 
 # Ensures that Python output to stdout/stderr is not buffered: prevents missing information when terminating
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive 
 
+USER root
 RUN apt-get update && apt-get install -y \
-    build-essential gcc ffmpeg libsm6 libxext6 git
+    build-essential gcc git ffmpeg libsm6 libxext6 libgeos-dev
+
 RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:openslide/openslide && apt-get update && apt-get -y install python3-openslide
 
 COPY resources /opt/app/resources
-RUN apt-get update && apt install -y /opt/app/resources/ASAP-2.1-Ubuntu2004.deb
+RUN apt-get update && apt install -y /opt/app/resources/ASAP-2.2-Ubuntu2204.deb && echo "/opt/ASAP/bin" > /home/user/micromamba/lib/python3.9/site-packages/asap.pth
 
-RUN groupadd -r user && useradd -m --no-log-init -r -g user user
+# RUN groupadd -r user && useradd -m --no-log-init -r -g user user
 RUN chown -R user:user /opt/app/resources
+RUN chown -R user:user /tmp
 
 USER user
 
@@ -33,19 +38,18 @@ COPY --chown=user:user wsi_core /opt/app/wsi_core
 
 
 # You can add any Python dependencies to requirements.txt
+# RUN pip install /opt/app/resources/torch-1.13.1+cu117-cp310-cp310-linux_x86_64.whl torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117 -i https://pypi.tuna.tsinghua.edu.cn/simple --progress-bar pretty
 
-RUN python -m pip install \
+RUN pip install \
     --user \
     --no-cache-dir \
     --no-color \
     --requirement /opt/app/requirements.txt \
     -i https://pypi.tuna.tsinghua.edu.cn/simple
 
-RUN python -m pip install -e /opt/app/resources/timm-0.5.4
-# RUN python -m pip install git+https://gitclone.com/github.com/Mahmoodlab/CONCH.git
+RUN pip install -e /opt/app/resources/timm-0.5.4
 
 COPY --chown=user:user inference.py /opt/app/
-
 
 ENTRYPOINT ["python", "inference.py"]
 # ENTRYPOINT [ "/bin/bash" ]

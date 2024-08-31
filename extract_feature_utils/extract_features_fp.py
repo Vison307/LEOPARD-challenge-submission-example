@@ -1,3 +1,7 @@
+# import sys
+# path_add = "/opt/ASAP/bin"
+# sys.path.append(str(path_add1))
+
 import time
 import os
 import argparse
@@ -94,7 +98,7 @@ def extract_features(data_h5_dir=None, data_slide_dir=None, slide_ext='.tif', cs
 		output_path = os.path.join(args.feat_dir, 'h5_files', bag_name)
 		time_start = time.time()
 		
-		wsi = wsd.WholeSlideImage(slide_file_path) # asap
+		wsi = wsd.WholeSlideImage(slide_file_path, backend='asap') # asap
 		# wsi = openslide.open_slide(slide_file_path)
 		dataset = Whole_Slide_Bag_FP(file_path=h5_file_path, 
 							   		 wsi=wsi, 

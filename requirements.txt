@@ -9,7 +9,7 @@ matplotlib
 scikit-learn
 scipy
 tqdm
-# openslide-python
+openslide-python
 wholeslidedata
 tensorboardX
 addict
