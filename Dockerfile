@@ -1,5 +1,5 @@
-# FROM --platform=linux/amd64 anibali/pytorch:1.13.1-cuda11.7-ubuntu22.04
-FROM --platform=linux/amd64 cnstark/pytorch:1.13.1-py3.9.16-cuda11.7.1-ubuntu20.04
+FROM --platform=linux/amd64 anibali/pytorch:1.13.1-cuda11.7-ubuntu22.04
+# FROM --platform=linux/amd64 cnstark/pytorch:1.13.1-py3.9.16-cuda11.7.1-ubuntu20.04
 # FROM --platform=linux/amd64 nvidia/cuda:11.7.1-runtime-ubuntu22.04
 
 # FROM --platform=linux/amd64 pytorch/pytorch:2.3.1-cuda11.8-cudnn8-devel
@@ -11,15 +11,14 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 USER root
 RUN apt-get update && apt-get install -y \
-    build-essential gcc git ffmpeg libsm6 libxext6 libgeos-dev openslide-tools python3-openslide
+    build-essential gcc git ffmpeg libsm6 libxext6 libgeos-dev 
 
-
-# RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:openslide/openslide && apt-get update && apt-get -y install python3-openslide
+RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:openslide/openslide && apt-get update && apt-get -y install python3-openslide
 
 COPY resources /opt/app/resources
-# RUN apt-get update && apt install -y /opt/app/resources/ASAP-2.2-Ubuntu2204.deb && echo "/opt/ASAP/bin" > /home/user/micromamba/lib/python3.9/site-packages/asap.pth
+RUN apt-get update && apt install -y /opt/app/resources/ASAP-2.2-Ubuntu2204.deb && echo "/opt/ASAP/bin" > /home/user/micromamba/lib/python3.9/site-packages/asap.pth
 
-RUN groupadd -r user && useradd -m --no-log-init -r -g user user
+# RUN groupadd -r user && useradd -m --no-log-init -r -g user user
 RUN chown -R user:user /opt/app/resources
 # RUN chown -R user:user /tmp
 
