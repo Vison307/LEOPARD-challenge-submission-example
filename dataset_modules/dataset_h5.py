@@ -67,7 +67,7 @@ class Whole_Slide_Bag_FP(Dataset):
 			self.length = len(self.dset)
 		
 		# print(f'dset.shape={self.dset.shape}')
-		N_max = 70_000
+		N_max = 120_000
 		if self.length > N_max:
 			sampled_indices = np.random.permutation(self.length)[:N_max]
 			self.dset = self.dset[sampled_indices]	
