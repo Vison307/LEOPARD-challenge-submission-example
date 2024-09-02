@@ -1,5 +1,5 @@
 Metadata-Version: 2.1
-Name: timm
+Name: timm_ctranspath
 Version: 0.5.4
 Summary: (Unofficial) PyTorch Image Models
 Home-page: https://github.com/rwightman/pytorch-image-models
