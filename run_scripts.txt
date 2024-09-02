@@ -1,4 +1,4 @@
-docker build -t leopard-submssion:v1 .
+docker build --network host --build-arg https_proxy="http://127.0.0.1:7890" --build-arg http_proxy="http://127.0.0.1:7890" --build-arg HTTP_PROXY="http://127.0.0.1:7890" --build-arg HTTPS_PROXY="http://127.0.0.1:7890" --build-arg NO_PROXY="127.0.0.1,localhost" --build-arg no_proxy="127.0.0.1,localhost"  -t leopard-submssion:v1 .
 
 docker run --gpus "all" --rm -it --network none --shm-size 8G -v /home/mat/LEOPARD-challenge-submission-example/test/input/images:/input/images -v /home/mat/LEOPARD-challenge-submission-example/test/output:/output leopard-submssion:v1
 
