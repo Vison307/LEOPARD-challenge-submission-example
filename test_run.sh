@@ -9,8 +9,6 @@ DOCKER_NOOP_VOLUME="${DOCKER_TAG}-volume"
 
 INPUT_DIR="${SCRIPT_DIR}/test/input"
 OUTPUT_DIR="${SCRIPT_DIR}/test/output"
-TMP_DIR="${SCRIPT_DIR}/test/tmp"
-
 
 echo "=+= Cleaning up any earlier output"
 if [ -d "$OUTPUT_DIR" ]; then
@@ -44,7 +42,7 @@ docker run --rm \
     --shm-size 8G \
     --volume "$INPUT_DIR":/input:ro \
     --volume "$OUTPUT_DIR":/output \
-    --volume "$TMP_DIR":/tmp \
+    --volume "$DOCKER_NOOP_VOLUME":/tmp \
     $DOCKER_TAG
 docker volume rm "$DOCKER_NOOP_VOLUME"
 
