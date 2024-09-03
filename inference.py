@@ -100,7 +100,7 @@ def run():
                         extract_features_fp.extract_features(data_h5_dir=wsi_dir, data_slide_dir=wsi_dir, slide_ext='.tif', csv_path=os.path.join(coord_save_dir, 'process_list_autogen.csv'), feat_dir=feat_dir, model_name='uni_v1', batch_size=512, target_patch_size=224, save_pt=True)
                     else:
                         print(f'Extracting features using resnet50 model')
-                        extract_features_fp.extract_features(data_h5_dir=coord_save_dir, data_slide_dir=wsi_dir, slide_ext='.tif', csv_path=os.path.join(coord_save_dir, 'process_list_autogen.csv'), feat_dir=feat_dir, model_name='resnet50_trunc', batch_size=512, target_patch_size=224, save_pt=True)        
+                        extract_features_fp.extract_features(data_h5_dir=coord_save_dir, data_slide_dir=wsi_dir, slide_ext='.tif', csv_path=os.path.join(coord_save_dir, 'process_list_autogen.csv'), feat_dir=feat_dir, model_name='resnet50_trunc', batch_size=512, target_patch_size=224, save_pt=True)
 
         if 'Patch_GCN' in config or 'DeepGraphConv' in config:
             try:
@@ -114,8 +114,6 @@ def run():
                 if not os.path.exists(save_path):
                     os.makedirs(save_path)
                     h5toPyG.createDir_h5toPyG(h5_path=h5_path, save_path=save_path)
-        
-        print(f'Finish Extracting features')
 
     result_list = []
     for config, ckpt_path in zip(config_list, ckpt_path_list): # for each MIL/pretrained_model
@@ -139,7 +137,6 @@ def run():
         torch.cuda.empty_cache()
         result_list.append(result)
 
-    print(f'Finish MIL Aggregation')
     # For now, let us set make bogus predictions
     output_overall_survival_years = sum(result_list) / len(result_list)
 
