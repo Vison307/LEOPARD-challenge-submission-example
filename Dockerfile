@@ -63,10 +63,9 @@ RUN cd /tmp && \
     rm -rf /tmp/Python-3* && \
     ldconfig
 
-RUN --mount=type=cache,mode=0755,target=/home/.cache/pip python3 -m pip install --upgrade pip pip-tools wheel setuptools && \
+RUN --mount=type=cache,mode=0777,target=/home/.cache/pip python3 -m pip install --upgrade pip pip-tools wheel setuptools && \
     printf '#!/bin/bash\necho "Please use pip3 instead of pip to install packages for python3"' > /usr/local/bin/pip && \
     chmod +x /usr/local/bin/pip && \
-    rm -rf ~/.cache/pip
 
 # install ASAP
 RUN apt-get update && \
@@ -76,8 +75,7 @@ RUN apt-get update && \
     apt-get -f install --fix-missing --fix-broken --assume-yes && \
     ldconfig -v && \
     apt-get clean && \
-    echo "/opt/ASAP/bin" > /usr/local/lib/python3.9/site-packages/asap.pth && \
-    rm ASAP-2.1-Ubuntu2004.deb
+    echo "/opt/ASAP/bin" > /usr/local/lib/python3.9/site-packages/asap.pth
 
 # Ensures that Python output to stdout/stderr is not buffered: prevents missing information when terminating
 ENV PYTHONUNBUFFERED 1
@@ -103,7 +101,7 @@ COPY --chown=user:user models /opt/app/models
 COPY --chown=user:user utils /opt/app/utils
 COPY --chown=user:user wsi_core /opt/app/wsi_core
 
-RUN --mount=type=cache,mode=0755,target=/root/.cache/pip cd /opt/app/ && \
+RUN --mount=type=cache,mode=0777,target=/root/.cache/pip cd /opt/app/ && \
     CUDA_IDENTIFIER_PYTORCH=`echo "cu${CUDA_MAJOR_VERSION}" | sed "s|\.||g" | cut -c1-5` && \
     sed -i \
         -e "s|%NUMPY_VERSION%|${NUMPY_VERSION}|g" \
@@ -113,7 +111,7 @@ RUN --mount=type=cache,mode=0755,target=/root/.cache/pip cd /opt/app/ && \
     /usr/local/bin/python3 -m piptools compile requirements.in --verbose --find-links https://download.pytorch.org/whl/torch_stable.html && \
     /usr/local/bin/python3 -m piptools sync
 
-RUN --mount=type=cache,mode=0755,target=/root/.cache/pip pip3 install -e /opt/app/resources/timm-0.5.4
+RUN --mount=type=cache,mode=0777,target=/root/.cache/pip pip3 install -e /opt/app/resources/timm-0.5.4
 
 COPY --chown=user:user inference.py /opt/app/
 USER user
