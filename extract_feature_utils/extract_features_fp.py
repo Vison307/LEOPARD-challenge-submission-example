@@ -81,7 +81,7 @@ def extract_features(data_h5_dir=None, data_slide_dir=None, slide_ext='.tif', cs
 	model = model.to(device)
 	total = len(bags_dataset)
 
-	loader_kwargs = {'num_workers': 1, 'pin_memory': False} if device.type == "cuda" else {}
+	loader_kwargs = {'num_workers': 8, 'pin_memory': False} if device.type == "cuda" else {}
 
 	for bag_candidate_idx in tqdm(range(total)):
 		slide_id = bags_dataset[bag_candidate_idx].split(args.slide_ext)[0]
@@ -98,8 +98,8 @@ def extract_features(data_h5_dir=None, data_slide_dir=None, slide_ext='.tif', cs
 		output_path = os.path.join(args.feat_dir, 'h5_files', bag_name)
 		time_start = time.time()
 		
-		wsi = wsd.WholeSlideImage(slide_file_path, backend='asap')
-		# wsi = openslide.open_slide(slide_file_path)
+		# wsi = wsd.WholeSlideImage(slide_file_path, backend='asap')
+		wsi = openslide.open_slide(slide_file_path)
 		dataset = Whole_Slide_Bag_FP(file_path=h5_file_path, 
 							   		 wsi=wsi, 
 									 img_transforms=img_transforms)

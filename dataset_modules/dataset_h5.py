@@ -91,10 +91,10 @@ class Whole_Slide_Bag_FP(Dataset):
 		coord = self.dset[idx]
 		# print(f'dset.shape={self.dset.shape}')
 		x, y = coord
-		# img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
-		spacing = self.wsi.spacings[self.patch_level]
-		patch = self.wsi.get_patch(x, y, self.patch_size, self.patch_size, spacing=spacing, center=False)
-		img = Image.fromarray(patch).convert("RGB")
+		img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
+		# spacing = self.wsi.spacings[self.patch_level]
+		# patch = self.wsi.get_patch(x, y, self.patch_size, self.patch_size, spacing=spacing, center=False)
+		# img = Image.fromarray(patch).convert("RGB")
 		img = self.roi_transforms(img)
 		return {'img': img, 'coord': coord}
 
