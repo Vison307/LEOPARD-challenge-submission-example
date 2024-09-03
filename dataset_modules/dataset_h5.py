@@ -65,7 +65,14 @@ class Whole_Slide_Bag_FP(Dataset):
 			self.patch_level = f['coords'].attrs['patch_level']
 			self.patch_size = f['coords'].attrs['patch_size']
 			self.length = len(self.dset)
-			
+		
+		# print(f'dset.shape={self.dset.shape}')
+		# N_max = 100_000
+		# if self.length > N_max:
+		# 	sampled_indices = np.random.permutation(self.length)[:N_max]
+		# 	self.dset = self.dset[sampled_indices]	
+		# 	self.length = N_max
+		# print(f'dset.shape={self.dset.shape}')
 		self.summary()
 			
 	def __len__(self):
@@ -82,11 +89,12 @@ class Whole_Slide_Bag_FP(Dataset):
 
 	def __getitem__(self, idx):
 		coord = self.dset[idx]
+		# print(f'dset.shape={self.dset.shape}')
 		x, y = coord
-		img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
-		# spacing = self.wsi.spacings[self.patch_level]
-		# patch = self.wsi.get_patch(x, y, self.patch_size, self.patch_size, spacing=spacing, center=False)
-		# img = Image.fromarray(patch).convert("RGB")
+		# img = self.wsi.read_region(coord, self.patch_level, (self.patch_size, self.patch_size)).convert('RGB')
+		spacing = self.wsi.spacings[self.patch_level]
+		patch = self.wsi.get_patch(x, y, self.patch_size, self.patch_size, spacing=spacing, center=False)
+		img = Image.fromarray(patch).convert("RGB")
 		img = self.roi_transforms(img)
 		return {'img': img, 'coord': coord}
 
