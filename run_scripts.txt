@@ -2,6 +2,8 @@ docker build -t leopard-submssion:v1 .
 
 docker run --gpus "all" --rm -it --network none --shm-size 8G -v /home/mat/LEOPARD-challenge-submission-example/test/input/images:/input/images -v /home/mat/LEOPARD-challenge-submission-example/test/output:/output leopard-submssion:v1
 
+docker run --gpus "all" --rm -it --network none --shm-size 8G -v /home/mat/LEOPARD-challenge-submission-example/test/input/images:/input/images -v /home/mat/LEOPARD-challenge-submission-example/test/output:/output cphitsz-leopard-submission
+
 docker run --gpus "device=0" --rm -it --network none --shm-size 8G -v /data115_2/fzj/LEOPARD/LEOPARD-challenge-submission-example/test/input:/input -v /data115_2/fzj/LEOPARD/LEOPARD-challenge-submission-example/test/output:/output leopard-submssion:v1
 
 docker run --gpus "all" --rm -it -v /home/mat/LEOPARD-challenge-submission-example/test/input/images:/input/images -v /home/mat/LEOPARD-challenge-submission-example/test/output:/output anibali/pytorch:1.13.1-cuda11.7-ubuntu22.04

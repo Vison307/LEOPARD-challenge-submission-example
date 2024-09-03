@@ -65,7 +65,7 @@ RUN cd /tmp && \
 
 RUN --mount=type=cache,mode=0777,target=/home/.cache/pip python3 -m pip install --upgrade pip pip-tools wheel setuptools && \
     printf '#!/bin/bash\necho "Please use pip3 instead of pip to install packages for python3"' > /usr/local/bin/pip && \
-    chmod +x /usr/local/bin/pip && \
+    chmod +x /usr/local/bin/pip 
 
 # install ASAP
 RUN apt-get update && \
@@ -75,7 +75,8 @@ RUN apt-get update && \
     apt-get -f install --fix-missing --fix-broken --assume-yes && \
     ldconfig -v && \
     apt-get clean && \
-    echo "/opt/ASAP/bin" > /usr/local/lib/python3.9/site-packages/asap.pth
+    echo "/opt/ASAP/bin" > /usr/local/lib/python3.9/site-packages/asap.pth && \
+    rm ASAP-2.1-Ubuntu2004.deb
 
 # Ensures that Python output to stdout/stderr is not buffered: prevents missing information when terminating
 ENV PYTHONUNBUFFERED 1

@@ -169,6 +169,6 @@ def write_json_file(*, location, content):
 
 
 if __name__ == "__main__":
-    # os.system('rm -rf /tmp/*')
+    os.system('rm -rf /tmp/*')
     os.system('nvidia-smi')
     raise SystemExit(run())
