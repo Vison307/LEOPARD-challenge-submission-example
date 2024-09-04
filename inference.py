@@ -61,7 +61,7 @@ config_list = [
     "./config/ABMIL.yaml", 
 ]
 ckpt_path_list = [
-    "./resources/ABMIL_cTranspath_1024_epoch_27_index_0.7275.pth", 
+    "./resources/ABMIL_cTranspath_1024_epoch_23_index_0.7683.pth", 
 ]
 process_step_size = [] # 20x, 10x
 
